@@ -1,14 +1,28 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { configureStore } from '@reduxjs/toolkit';
-import productsReducer from './features/products/productsSlice';
+import { persistStore, persistReducer } from 'redux-persist';
+import { listenerMiddleware } from './listenerMiddleware';
+import productsReducer from './Products/Products.slice';
+
+const persistConfig = {
+  key: 'root',
+  version: 1,
+  storage: AsyncStorage,
+};
+
+const persistedReducer = persistReducer(persistConfig, productsReducer);
 
 const store = configureStore({
-  reducer: {
-    products: productsReducer,
-  },
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).prepend(listenerMiddleware.middleware),
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+export const persistor = persistStore(store);
 
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export default store;
