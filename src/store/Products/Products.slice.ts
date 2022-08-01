@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Product } from '../../../models/product';
+import { listenerMiddleware } from '../listenerMiddleware';
+import { Product } from '../../models/product';
 
 interface ProductsState {
   products: Array<Product>;
@@ -28,6 +29,14 @@ export const productsSlice = createSlice({
 
       state.products[productIndex] = action.payload;
     },
+  },
+});
+
+listenerMiddleware.startListening({
+  actionCreator: productsSlice.actions.modifyProduct,
+  effect: async (action, listenerApi) => {
+    console.log("i'm listening to modifyProduct: ", action.payload.name);
+    listenerApi.cancelActiveListeners();
   },
 });
 

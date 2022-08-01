@@ -6,21 +6,30 @@ import {
   addProduct,
   modifyProduct,
   removeProduct,
-} from '../../store/features/products/productsSlice';
+} from '../../store/Products/Products.slice';
+import { Product } from '../../models/product';
+import { asyncAddProduct } from '../../store/Products/Products.thunks';
 
 export const Home: React.FC = () => {
-  const { products } = useAppSelector(state => state.products);
+  const products = useAppSelector(state => state.products);
   const dispatch = useAppDispatch();
 
-  function onPressAddProduct() {
+  function generateNewProduct(): Product {
     const randomNumberAsString = Math.random().toString();
-    dispatch(
-      addProduct({
-        id: randomNumberAsString,
-        name: `Product ${randomNumberAsString}`,
-        price: Math.round(Math.random() * 100),
-      }),
-    );
+
+    return {
+      id: randomNumberAsString,
+      name: `Product ${randomNumberAsString}`,
+      price: Math.round(Math.random() * 100),
+    };
+  }
+
+  function onPressAddProduct() {
+    dispatch(addProduct(generateNewProduct()));
+  }
+
+  function onPressAsyncAddProduct() {
+    dispatch(asyncAddProduct(generateNewProduct()));
   }
 
   function onPressModifyFirstProductPrice() {
@@ -46,6 +55,7 @@ export const Home: React.FC = () => {
       ))}
 
       <Button title="Add product" onPress={onPressAddProduct} />
+      <Button title="Async add product" onPress={onPressAsyncAddProduct} />
       <Button
         title="Remove first product"
         onPress={onPressRemoveFirstProduct}
