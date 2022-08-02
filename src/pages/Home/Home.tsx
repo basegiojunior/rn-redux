@@ -10,10 +10,13 @@ import {
 import { Product } from '../../models/product';
 import { asyncAddProduct } from '../../store/Products/Products.thunks';
 import { Button, Text } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { MainNavigationProps, RoutesList } from '../../routes/Routes.types';
 
 export const Home: React.FC = () => {
   const products = useAppSelector(state => state.products);
   const dispatch = useAppDispatch();
+  const { navigate } = useNavigation<MainNavigationProps>();
 
   function generateNewProduct(): Product {
     const randomNumberAsString = Math.random().toString();
@@ -45,6 +48,10 @@ export const Home: React.FC = () => {
 
   function onPressRemoveFirstProduct() {
     dispatch(removeProduct(products[0].id));
+  }
+
+  function onPressGoToProducts() {
+    navigate(RoutesList.Products);
   }
 
   return (
@@ -79,6 +86,13 @@ export const Home: React.FC = () => {
         mode="contained"
         onPress={onPressModifyFirstProductPrice}>
         Modificar preço do primeiro produto
+      </Button>
+
+      <Button
+        style={styles.buttonContainer}
+        mode="contained"
+        onPress={onPressGoToProducts}>
+        Ir para página de produtos
       </Button>
     </View>
   );
