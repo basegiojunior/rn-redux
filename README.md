@@ -8,3 +8,4 @@ Project developed to practice the implementation of redux in a React Native proj
 - Redux toolkit
 - Thunks
 - Listener middleware
+- Data persisted with Async Storage 
