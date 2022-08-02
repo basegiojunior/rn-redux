@@ -6,9 +6,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ebebf0',
     padding: 16,
   },
-  buttonContainer: {
-    marginTop: 16,
-  },
   productContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
