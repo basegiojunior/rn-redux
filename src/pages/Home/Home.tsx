@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { View } from 'react-native';
 import styles from './Home.style';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import {
@@ -9,6 +9,7 @@ import {
 } from '../../store/Products/Products.slice';
 import { Product } from '../../models/product';
 import { asyncAddProduct } from '../../store/Products/Products.thunks';
+import { Button, Text } from 'react-native-paper';
 
 export const Home: React.FC = () => {
   const products = useAppSelector(state => state.products);
@@ -19,7 +20,7 @@ export const Home: React.FC = () => {
 
     return {
       id: randomNumberAsString,
-      name: `Product ${randomNumberAsString}`,
+      name: `Produto ${Math.round(Math.random() * 100)}`,
       price: Math.round(Math.random() * 100),
     };
   }
@@ -49,21 +50,36 @@ export const Home: React.FC = () => {
   return (
     <View style={styles.container}>
       {products.map(product => (
-        <Text key={product.id}>
-          {product.name}, {product.price}
-        </Text>
+        <View key={product.id} style={styles.productContainer}>
+          <Text>Nome: {product.name}</Text>
+          <Text>R$ {product.price}</Text>
+        </View>
       ))}
 
-      <Button title="Add product" onPress={onPressAddProduct} />
-      <Button title="Async add product" onPress={onPressAsyncAddProduct} />
       <Button
-        title="Remove first product"
-        onPress={onPressRemoveFirstProduct}
-      />
+        style={styles.buttonContainer}
+        mode="contained"
+        onPress={onPressAddProduct}>
+        Adicionar produto
+      </Button>
       <Button
-        title="Modify first product price"
-        onPress={onPressModifyFirstProductPrice}
-      />
+        style={styles.buttonContainer}
+        mode="contained"
+        onPress={onPressAsyncAddProduct}>
+        Adicionar Produto Assincrono
+      </Button>
+      <Button
+        style={styles.buttonContainer}
+        mode="contained"
+        onPress={onPressRemoveFirstProduct}>
+        Remover primeiro
+      </Button>
+      <Button
+        style={styles.buttonContainer}
+        mode="contained"
+        onPress={onPressModifyFirstProductPrice}>
+        Modificar preço do primeiro produto
+      </Button>
     </View>
   );
 };
