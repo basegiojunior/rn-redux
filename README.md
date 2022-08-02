@@ -1,3 +1,10 @@
 # React Native Redux
 
-Project developed to pratice implementing redux in a React Native project
+Project developed to practice the implementation of redux in a React Native project
+
+## Fetaures
+
+- Typescript
+- Redux toolkit
+- Thunks
+- Listener middleware
